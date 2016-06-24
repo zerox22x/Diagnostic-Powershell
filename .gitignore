@@ -246,3 +246,4 @@ ModelManifest.xml
 #Visual studio project files
 *.sln
 *.pssproj
+.log

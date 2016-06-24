@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "PowerShell",
+            "type": "PowerShell",
+            "request": "launch",
+            "program": "${file}",
+            "args": [],
+            "cwd": "${file}"
+        },
+        {
             "name": "PowerShell x86",
             "type": "PowerShell x86",
             "request": "launch",

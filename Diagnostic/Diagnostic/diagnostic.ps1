@@ -40,6 +40,7 @@ function Call-event_psf {
 	$buttonclearapplog = New-Object 'System.Windows.Forms.Button'
 	$buttonSave = New-Object 'System.Windows.Forms.Button'
 	$buttonList = New-Object 'System.Windows.Forms.Button'
+	$buttonhttpcheck = New-Object 'System.Windows.Forms.Button'
 	$richtextbox1 = New-Object 'System.Windows.Forms.RichTextBox'
 	$buttonSearch = New-Object 'System.Windows.Forms.Button'
 	$buttonlistdrive = New-Object 'System.Windows.Forms.Button'
@@ -306,7 +307,24 @@ function Call-event_psf {
 					#write-debug Services was clicked
 					#write-debug $error
 				}
-
+                $buttonhttpcheck_Click = {
+                    add-type @"
+                     using System.Net;
+                     using System.Security.Cryptography.X509Certificates;
+                     public class TrustAllCertsPolicy : ICertificatePolicy {
+       	          	 public bool CheckValidationResult(
+                     ServicePoint srvPoint, X509Certificate certificate,
+                     WebRequest request, int certificateProblem) {
+                     return true;
+        }
+    }
+"@
+            [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+            $site = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website", "Computer", "www.google.com")
+            $result = Invoke-WebRequest -Uri "$site"
+            $result |Select-Object Statuscode, StatusDescription, Headers, ParsedHtml| Format-list |Out-string
+            $richtextbox1.Appendtext("$result")
+                }
 				Get-Variable -Scope script 
 				# --End User Generated Script--
 				#----------------------------------------------
@@ -337,11 +355,13 @@ function Call-event_psf {
 						$richtextbox1.remove_TextChanged($richtextbox1_TextChanged)
 						$buttonSearch.remove_Click($buttonSearch_Click)
 						$buttonlistdrive.remove_Click($buttonlistdrive_Click)
-						$formEventLogSearch.remove_FormClosing($formEventLogSearch_FormClosing)
+						$buttonhttpcheck.remove_Click($buttonhttpcheck_Click)
+                        $formEventLogSearch.remove_FormClosing($formEventLogSearch_FormClosing)
 						$formEventLogSearch.remove_FormClosed($formMain_FormClosed)
 						$formEventLogSearch.remove_Load($formEventLogSearch_Load)
 						$formEventLogSearch.remove_Load($Form_StateCorrection_Load)
 						$formEventLogSearch.remove_FormClosed($Form_Cleanup_FormClosed)
+                        
 					}
 					catch [Exception]
 					{					}
@@ -370,6 +390,7 @@ function Call-event_psf {
 				$formEventLogSearch.Controls.Add($buttonSearch)
 				$formEventLogSearch.Controls.Add($buttonlistdrive)
 				$formEventLogSearch.Controls.Add($buttonclearapplog)
+                $formEventLogSearch.Controls.Add($buttonhttpcheck)
 				$formEventLogSearch.ClientSize = '1600, 900'
 				$formEventLogSearch.Name = "formEventLogSearch"
 				$formEventLogSearch.Text = "Event Log Search"
@@ -511,6 +532,16 @@ function Call-event_psf {
 				$buttonclearapplog.Text = "event clear"
 				$buttonclearapplog.UseVisualStyleBackColor = $True
 				$buttonclearapplog.add_Click($buttonclearapplog_Click)
+                				#
+				#
+				#eventlog clear $buttonhttpcheck
+				$buttonhttpcheck.Location = '1000, 13'
+				$buttonhttpcheck.Name = "Htpp Check"
+			    $buttonhttpcheck.Size = '75, 23'
+				$buttonhttpcheckTabIndex = 0
+				$buttonhttpcheck.Text = "Http Check"
+				$buttonhttpcheck.UseVisualStyleBackColor = $True
+				$buttonhttpcheck.add_Click($buttonhttpcheck_Click)
 				#endregion Generated Form Code
 
 				#----------------------------------------------

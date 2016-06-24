@@ -242,18 +242,20 @@ function Call-event_psf {
 					$richtextbox1.AppendText("`n")
 					#64 bit
 					if ($Env:PROCESSOR_ARCHITECTURE -eq "AMD64"){
-					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher -ErrorAction stop| Sort-Object DisplayName | Format-Table -AutoSize|Out-String
-					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -ErrorAction stop|Format-Table -AutoSize |Out-String
-					$programs = $getprograms + $getprograms2
+					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher -Unique| Sort-Object DisplayName | Format-Table -AutoSize
+					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -Unique|Format-Table -AutoSize
+					$programs = $getprograms + $getprograms2 | Out-String
 					}
 					Else {
-					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -ErrorAction stop|Format-Table -AutoSize | Out-String
+					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -Unique|Format-Table -AutoSize
 					}
 															
 					$pattern = '[^\u0020-\u007E\u002D\u000A]'
+					$pattern2 = '["DisplayName\b", "DisplayVersion\b", "Publisher\b"]'
 					$programs2 = ($programs -replace $pattern, ' ').trim()
-					$programs = $programs2
-					$richtextbox1.AppendText("$programs")
+					$programs2 = ($programs -replace $patthern2, '').Trim()
+					$programs = $programs2 | Out-String
+					$richtextbox1.AppendText("$programs2")
 					$richtextbox1.lines |Out-file -FilePath d:\games\example.txt
 					#write-debug $programs
 					#write-debug installed programs was clicked
@@ -310,23 +312,11 @@ function Call-event_psf {
 					#write-debug $error
 				}
                 $buttonhttpcheck_Click = {
-                    add-type
-					 @"
-                     using System.Net;
-                     using System.Security.Cryptography.X509Certificates;
-                     public class TrustAllCertsPolicy : ICertificatePolicy {
-       	          	 public bool CheckValidationResult(
-                     ServicePoint srvPoint, X509Certificate certificate,
-                     WebRequest request, int certificateProblem) {
-                     return true;
-        }
-    }
-"@
-            [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
-            $site = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website", "Computer", "www.google.com")
-            $result = Invoke-WebRequest -Uri "$site"
-            $result |Select-Object Statuscode, StatusDescription, Headers, ParsedHtml| Format-list |Out-string
-            $richtextbox1.Appendtext("$result")
+				[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
+            	$site = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website", "Computer", "www.google.com")
+            	$result = Invoke-WebRequest -Uri "$site"
+            	$result |Select-Object Statuscode, StatusDescription, Headers| Format-list |Out-string
+            	$richtextbox1.Appendtext("$result")
                 }
 				Get-Variable -Scope script 
 				# --End User Generated Script--
@@ -538,7 +528,7 @@ function Call-event_psf {
                 				#
 				#
 				#eventlog clear $buttonhttpcheck
-				$buttonhttpcheck.Location = '0, 0'
+				$buttonhttpcheck.Location = '850, 12'
 				$buttonhttpcheck.Name = "Htpp Check"
 			    $buttonhttpcheck.Size = '75, 23'
 				$buttonhttpcheck.Text = "Http Check"

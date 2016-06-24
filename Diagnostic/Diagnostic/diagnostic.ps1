@@ -249,9 +249,7 @@ function Call-event_psf {
 					Else {
 					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -ErrorAction stop|Format-Table -AutoSize | Out-String
 					}
-												
-					#test thought , foreach knocking out the empty strings
-					
+															
 					$pattern = '[^\u0020-\u007E\u002D\u000A]'
 					$programs2 = ($programs -replace $pattern, ' ').trim()
 					$programs = $programs2

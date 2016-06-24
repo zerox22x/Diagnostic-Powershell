@@ -242,22 +242,26 @@ function Call-event_psf {
 					$richtextbox1.AppendText("`n")
 					#64 bit
 					if ($Env:PROCESSOR_ARCHITECTURE -eq "AMD64"){
-					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher| Sort-Object DisplayName | Format-Table -AutoSize|Out-string
-					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName|Format-Table -AutoSize|Out-string
+					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher -ErrorAction stop| Sort-Object DisplayName | Format-Table -AutoSize|Out-String
+					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -ErrorAction stop|Format-Table -AutoSize |Out-String
 					$programs = $getprograms + $getprograms2
 					}
 					Else {
-					$programs2 = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName|Format-Table -AutoSize|Out-string
+					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -ErrorAction stop|Format-Table -AutoSize | Out-String
 					}
-					$pattern = '[^\u0020-\u007E\u002D]'
+												
+					#test thought , foreach knocking out the empty strings
+					
+					$pattern = '[^\u0020-\u007E\u002D\u000A]'
 					$programs2 = ($programs -replace $pattern, ' ').trim()
 					$programs = $programs2
 					$richtextbox1.AppendText("$programs")
+					$richtextbox1.lines |Out-file -FilePath d:\games\example.txt
 					#write-debug $programs
 					#write-debug installed programs was clicked
 					#write-debug $error
-
 				}
+			
 
 				$buttonPing_Click = {
 					#loads .net window , adds a input box,uses input box as argument for ping , formats the list and output as string rather then powershell object
@@ -308,7 +312,8 @@ function Call-event_psf {
 					#write-debug $error
 				}
                 $buttonhttpcheck_Click = {
-                    add-type @"
+                    add-type
+					 @"
                      using System.Net;
                      using System.Security.Cryptography.X509Certificates;
                      public class TrustAllCertsPolicy : ICertificatePolicy {
@@ -401,7 +406,7 @@ function Call-event_psf {
 				#
 				# button1
 				#
-				$button1.Location = '318, 12'
+				$button1.Location = '275, 12'
 				$button1.Name = "Windows Update log"
 				$button1.Size = '120, 23'
 				$button1.TabIndex = 9
@@ -410,7 +415,7 @@ function Call-event_psf {
 				$button1.add_Click($button1_Click)
 				#
 				#processes
-				$button2.Location = '830, 12'
+				$button2.Location = '775, 12'
 				$button2.Name = "processes"
 				$button2.Size = '75, 23'
 				$button2.TabIndex = 9
@@ -420,7 +425,7 @@ function Call-event_psf {
 				#
 				# buttonIpconfig
 				#
-				$buttonIpconfig.Location = '756, 12'
+				$buttonIpconfig.Location = '700, 12'
 				$buttonIpconfig.Name = "buttonIpconfig"
 				$buttonIpconfig.Size = '75, 23'
 				$buttonIpconfig.TabIndex = 8
@@ -430,7 +435,7 @@ function Call-event_psf {
 				#
 				# buttonPing
 				#
-				$buttonPing.Location = '675, 13'
+				$buttonPing.Location = '620, 12'
 				$buttonPing.Name = "buttonPing"
 				$buttonPing.Size = '75, 23'
 				$buttonPing.TabIndex = 7
@@ -440,7 +445,7 @@ function Call-event_psf {
 				#
 				# buttonInstalledPrograms
 				#
-				$buttonInstalledPrograms.Location = '547, 12'
+				$buttonInstalledPrograms.Location = '500, 12'
 				$buttonInstalledPrograms.Name = "buttonInstalledPrograms"
 				$buttonInstalledPrograms.Size = '111, 23'
 				$buttonInstalledPrograms.TabIndex = 6
@@ -450,7 +455,7 @@ function Call-event_psf {
 				#
 				# buttonFirewallStatus
 				#
-				$buttonFirewallStatus.Location = '446, 12'
+				$buttonFirewallStatus.Location = '400, 12'
 				$buttonFirewallStatus.Name = "buttonFirewallStatus"
 				$buttonFirewallStatus.Size = '95, 23'
 				$buttonFirewallStatus.TabIndex = 5
@@ -460,7 +465,7 @@ function Call-event_psf {
 				#
 				# buttonAbout
 				#
-				$buttonAbout.Location = '1073, 13'
+				$buttonAbout.Location = '1073, 12'
 				$buttonAbout.Name = "buttonAbout"
 				$buttonAbout.Size = '75, 23'
 				$buttonAbout.TabIndex = 4
@@ -470,7 +475,7 @@ function Call-event_psf {
 				#
 				# buttonSave
 				#
-				$buttonSave.Location = '189, 12'
+				$buttonSave.Location = '180, 12'
 				$buttonSave.Name = "buttonSave"
 				$buttonSave.Size = '75, 23'
 				$buttonSave.TabIndex = 3
@@ -480,7 +485,7 @@ function Call-event_psf {
 				#
 				# buttonList
 				#
-				$buttonList.Location = '107, 12'
+				$buttonList.Location = '90, 12'
 				$buttonList.Name = "buttonList"
 				$buttonList.Size = '75, 23'
 				$buttonList.TabIndex = 2
@@ -506,7 +511,7 @@ function Call-event_psf {
 				#
 				# buttonSearch
 				#
-				$buttonSearch.Location = '13, 13'
+				$buttonSearch.Location = '10, 12'
 				$buttonSearch.Name = "buttonSearch"
 				$buttonSearch.Size = '75, 23'
 				$buttonSearch.TabIndex = 0
@@ -525,7 +530,7 @@ function Call-event_psf {
 				#
 				#
 				#eventlog clear $buttonclearapplog
-				$buttonclearapplog.Location = '920, 13'
+				$buttonclearapplog.Location = '920, 12'
 				$buttonclearapplog.Name = "eventclear"
 				$buttonclearapplog.Size = '75, 23'
 				$buttonclearapplogTabIndex = 0
@@ -535,10 +540,9 @@ function Call-event_psf {
                 				#
 				#
 				#eventlog clear $buttonhttpcheck
-				$buttonhttpcheck.Location = '1000, 13'
+				$buttonhttpcheck.Location = '0, 0'
 				$buttonhttpcheck.Name = "Htpp Check"
 			    $buttonhttpcheck.Size = '75, 23'
-				$buttonhttpcheckTabIndex = 0
 				$buttonhttpcheck.Text = "Http Check"
 				$buttonhttpcheck.UseVisualStyleBackColor = $True
 				$buttonhttpcheck.add_Click($buttonhttpcheck_Click)

@@ -242,20 +242,21 @@ function Call-event_psf {
 					$richtextbox1.AppendText("`n")
 					#64 bit
 					if ($Env:PROCESSOR_ARCHITECTURE -eq "AMD64"){
-					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher -Unique| Sort-Object DisplayName | Format-Table -AutoSize
-					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -Unique|Format-Table -AutoSize
-					$programs = $getprograms + $getprograms2 | Out-String
+					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher -Unique| Sort-Object DisplayName | Format-Table -AutoSize | Out-String
+					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -Unique|Format-Table -AutoSize | Out-String
+					$getprograms2=$getprograms2 -replace "DisplayVersion", " " | Out-String
+					$getprograms2=$getprograms2 -replace "DisplayName", " " | Out-String
+					$getprograms2=$getprograms2 -replace "Publisher", " " | Out-String
+					$getprograms2=$getprograms2 -replace "-----------", " " | Out-String
+					$getprograms2=$getprograms2 -replace "^\r"," "|Out-String
+					$getprograms2=$getprograms2 -replace "^\n", " "|Out-string
+					$getprograms2.Trim()
+					$programs = $getprograms + $getprograms2
 					}
 					Else {
 					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -Unique|Format-Table -AutoSize
 					}
-															
-					$pattern = '[^\u0020-\u007E\u002D\u000A]'
-					$pattern2 = '["DisplayName\b", "DisplayVersion\b", "Publisher\b"]'
-					$programs2 = ($programs -replace $pattern, ' ').trim()
-					$programs2 = ($programs -replace $patthern2, '').Trim()
-					$programs = $programs2 | Out-String
-					$richtextbox1.AppendText("$programs2")
+					$richtextbox1.AppendText("$programs")
 					$richtextbox1.lines |Out-file -FilePath d:\games\example.txt
 					#write-debug $programs
 					#write-debug installed programs was clicked

@@ -127,11 +127,13 @@ function Call-event_psf {
 	$richtextbox1_TextChanged = {
 		#fires everytime text is added to the textbox , always scroll down and clear any errors that may have occured
 		$richtextbox1.ScrollToCaret();
-
-}
-			if ($Error.Count -eq "0") { $buttonSave.Enabled = $true; }
+		if ($Error.Count -eq "0") { $buttonSave.Enabled = $true; }
 		if ($Error.Count -ne "0") { $richtextbox1.AppendText("$Error1") }
 		$Error.Clear()
+		[gc]::Collect()
+		
+
+}
 		
 
 	$buttonclearapplog_Click = 	{

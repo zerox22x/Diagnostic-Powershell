@@ -242,21 +242,19 @@ function Call-event_psf {
 					$richtextbox1.AppendText("`n")
 					#64 bit
 					if ($Env:PROCESSOR_ARCHITECTURE -eq "AMD64"){
-					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher -Unique| Sort-Object DisplayName | Format-Table -AutoSize | Out-String
-					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -Unique|Format-Table -AutoSize | Out-String
-					$getprograms2=$getprograms2 -replace "DisplayVersion", " " | Out-String
-					$getprograms2=$getprograms2 -replace "DisplayName", " " | Out-String
-					$getprograms2=$getprograms2 -replace "Publisher", " " | Out-String
-					$getprograms2=$getprograms2 -replace "-----------", " " | Out-String
-					$getprograms2=$getprograms2 -replace "^\r"," "|Out-String
-					$getprograms2=$getprograms2 -replace "^\n", " "|Out-string
-					$getprograms2.Trim()
-					$programs = $getprograms + $getprograms2
+					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher
+					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher
+					# get rid of some extra stuff in the table header
+					#replaces only linebreakes at the start with a empty space
+					$programs = $getprograms + $getprograms2 | Sort-Object DisplayName | Out-String
+					$richtextbox1.AppendText("$programs")
+				
 					}
 					Else {
-					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -Unique|Format-Table -AutoSize
-					}
+					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher|Sort-Object DisplayName -Unique|Format-Table
 					$richtextbox1.AppendText("$programs")
+					}
+					
 					$richtextbox1.lines |Out-file -FilePath d:\games\example.txt
 					#write-debug $programs
 					#write-debug installed programs was clicked
@@ -315,9 +313,11 @@ function Call-event_psf {
                 $buttonhttpcheck_Click = {
 				[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
             	$site = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website", "Computer", "www.google.com")
-            	$result = Invoke-WebRequest -Uri "$site"
-            	$result |Select-Object Statuscode, StatusDescription, Headers| Format-list |Out-string
-            	$richtextbox1.Appendtext("$result")
+            	$richtextbox1.AppendText("Testing connection to $site")
+				$webtest = Invoke-WebRequest -Uri "$site"|Select-Object Statuscode, StatusDescription, Headers, Baseresponse| Format-list |Out-string
+				$ping = Test-NetConnection $site | Out-String
+				$richtextbox1.AppendText("$ping")
+				$richtextbox1.AppendText("$webtest")
                 }
 				Get-Variable -Scope script 
 				# --End User Generated Script--
@@ -522,7 +522,6 @@ function Call-event_psf {
 				$buttonclearapplog.Location = '920, 12'
 				$buttonclearapplog.Name = "eventclear"
 				$buttonclearapplog.Size = '75, 23'
-				$buttonclearapplogTabIndex = 0
 				$buttonclearapplog.Text = "event clear"
 				$buttonclearapplog.UseVisualStyleBackColor = $True
 				$buttonclearapplog.add_Click($buttonclearapplog_Click)
@@ -554,5 +553,4 @@ function Call-event_psf {
 			#Call the form
 			Call-event_psf
 
-Remove-Item errorlog.log
 

@@ -1,4 +1,6 @@
 #Requires -Version 3.0
+$DebugPreference = "Continue"
+Write-Debug "past requires means we are runnign on v3 or higher"
 #----------------------------------------------
 #region Application Functions
 #----------------------------------------------
@@ -22,7 +24,7 @@ function Call-event_psf {
 	[void][reflection.assembly]::Load('System.DirectoryServices, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a')
 	[void][reflection.assembly]::Load('System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089')
 	[void][reflection.assembly]::Load('System.ServiceProcess, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a')
-	
+	Write-Debug "assemblies loaded"
 	#endregion Import Assemblies
 
 	#----------------------------------------------
@@ -45,6 +47,7 @@ function Call-event_psf {
 	$buttonSearch = New-Object 'System.Windows.Forms.Button'
 	$buttonlistdrive = New-Object 'System.Windows.Forms.Button'
 	$InitialFormWindowState = New-Object 'System.Windows.Forms.FormWindowState'
+	Write-Debug "All objects added"
 	#endregion Generated Form Objects
 
 	#----------------------------------------------
@@ -69,9 +72,9 @@ function Call-event_psf {
 				}
 		
 		$buttonSave.Enabled = $false;
-		$itemlocation = Get-Location | Out-String
-		$itemlocation.Trim("Path, ---")
 		# Get current location
+		$itemlocation = Get-Location
+		$itemlocation = $itemlocation -replace "Path", "".Replace("---", "") | Out-String
 		$richtextbox1.AppendText("Current location is $itemlocation")
 		# Get windows version and add it to the box
 		$windowsname = (Get-WmiObject win32_operatingsystem).caption | Out-String
@@ -99,8 +102,8 @@ function Call-event_psf {
 			else
 			{$richtextbox1.AppendText("IP Addressing availeble`n")
 			}
-		##write-debug "Initalization done"
-		##write-debug $Error
+		write-debug "Initalization done"
+		
 		}
 
 
@@ -111,15 +114,16 @@ function Call-event_psf {
 		$logname = [Microsoft.VisualBasic.Interaction]::InputBox("log name , allowed are Application,System,Setup,Security", "LogName", "Application")
 		$programname = [Microsoft.VisualBasic.Interaction]::InputBox("programname", "programname", "*")
 		$how = [Microsoft.VisualBasic.Interaction]::InputBox("how many entries should be retrieved", "number", "60")
-
+		write-debug "Information gathered for event log search"
 		$events = get-eventlog -logname $logname -Newest $how
-		#$scan = $events | foreach-object -begin { clear-host; $i = 0; $out = "" } -process { if ($_.message -like "*$programname*") { $out = $out + $_.Message }; $i = $i + 1; write-progress -activity "Searching Events" -status "Progress:" -percentcomplete ($i/$events.count * 100) } -end { $out } | format-table ID, message | Out-String
-		$scan = $events | Where-Object { $_.message -like "*$programname*" } |Select-Object -Property EntryType,Source,Message |  Format-table| Out-String
+		Write-Debug "Got specified entries"
+		$scan = $events | Where-Object { $_.message -like "*$programname*" } |Select-Object -Property EntryType,Source,Message | Format-table| Out-String
+		Write-Debug "Get only the things we want , the rest can go away"
 		$richtextbox1.AppendText("$scan")
 		$error1 = $Error[0] | Format-table -Force | out-string
 		if ($Error.Count -eq "0") { $buttonSave.Enabled = $true; }
 		#write-debug Event log Search ran
-		#write-debug $error
+		
 		$Error.Clear()
 	}
 
@@ -131,7 +135,7 @@ function Call-event_psf {
 		if ($Error.Count -ne "0") { $richtextbox1.AppendText("$Error1") }
 		$Error.Clear()
 		[gc]::Collect()
-		
+		Write debug "Text changed in text box"
 
 }
 		
@@ -145,17 +149,18 @@ function Call-event_psf {
 			[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
 			$logname2 = [Microsoft.VisualBasic.Interaction]::InputBox("Log name , allowed are Application,System,Setup and Security", "Logname", "Application")
 			Clear-EventLog -LogName $logname2
+			Write-Debug "Eventlog clear ran"
 			$richtextbox1.Appendtext("`nClearing $logname")
 						
 			$richtextbox1.AppendText("`nlog cleared")
 		}
 		else {
 			$richtextbox1.AppendText("`n Eventlog Clear Cancled")
+			Write-Debug "Eventlog clear got cancled"
 			}
 		$error1 = $Error[0] | Out-String
 		if ($Error.Count -eq "0") {}
-		#write-debug Event Clear ran
-		#write-debug $error
+		
 		}
 	$buttonList_Click = {
 			#basicly the same thing as $buttonSearch except this will list x of the last entries in it , default is 60 entries in application log
@@ -166,6 +171,7 @@ function Call-event_psf {
 			[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
 			$logname2 = [Microsoft.VisualBasic.Interaction]::InputBox("Log name , allowed are Application,System,Setup and Security", "Logname", "Application")
 			$how = [Microsoft.VisualBasic.Interaction]::InputBox("how many entries should be retrieved", "number", "60")
+			Write-Debug "information gathered for event log fetch"
 			$eventlist = Get-eventlog -logname $logname2 -Newest $how |Select-Object -Property EntryType,Source,Message | Format-table | Out-String 
 			$richtextbox1.AppendText("$eventlist")
 			$error1 = $Error[0] | Format-table -Force | out-string
@@ -192,7 +198,7 @@ function Call-event_psf {
 			#[void][System.Windows.Forms.MessageBox]::Show("Event Log Search tool by Collin Bakker , v1, running on $psversion,$windowsname,$windowsbuild", "Caption")
 			$richtextbox1.AppendText("`nEvent Log Search tool by Collin Bakker , v1, `n running on $psversion,$windowsname,$windowsbuild")
 			#write-debug $psversion,$windowsname,$windowsbuild
-			#write-debug About button was clicked
+			write-debug "About button was clicked"
 			#write-debug $Error
 		}
 		$buttonlistdrive_Click = {
@@ -202,7 +208,7 @@ function Call-event_psf {
 			$richtextbox1.AppendText("`n")
 			$richtextbox1.AppendText("$drives")
 			#write-debug $drives
-			#write-debug List drives was clicked
+			#rite-debug List drives was clicked
 			#write-debug $Error
 		}
 
@@ -230,14 +236,14 @@ function Call-event_psf {
 					$firewall = Get-NetFirewallProfile | Format-table -Property Name, Enabled |Out-String
 					$richtextbox1.AppendText("$firewall")
 					#write-debug $firewall
-					#write-debug Firewall button was clicked
+					write-debug "Firewall button was clicked"
 					#write-debug $error
 				}
 
 
 
 				$buttonInstalledPrograms_Click = {
-					#Gets installed programs, keeps in mind if a system is 64 bit or not, currently has a issue with showing doubles and far too much empty space (dont know why)
+					#Gets installed programs, keeps in mind if a system is 64 bit or not,was doeing things far to complicated
 					$richtextbox1.AppendText("this may take a while")
 					$richtextbox1.AppendText("`n")
 					$richtextbox1.AppendText("----- Installed Programs List ------")
@@ -246,14 +252,15 @@ function Call-event_psf {
 					if ($Env:PROCESSOR_ARCHITECTURE -eq "AMD64"){
 					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher,InstallLocation
 					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation
-					# get rid of some extra stuff in the table header
-					#replaces only linebreakes at the start with a empty space
+					# add $getprograms and $getprograms2 together then sort on display name and save as a string
 					$programs = $getprograms + $getprograms2 | Sort-Object DisplayName | Out-String
+					Write-Debug "64 bit path for installed programs ran"
 					$richtextbox1.AppendText("$programs")
 				
 					}
 					Else {
-					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation|Sort-Object DisplayName -Unique|Format-Table
+					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation|Sort-Object DisplayName |Out-string
+					Write-Debug "32 bit path for installed programs ran"
 					$richtextbox1.AppendText("$programs")
 					}
 					
@@ -273,7 +280,7 @@ function Call-event_psf {
 					$pingresult = Test-Connection $ip | Format-Table |out-string
 					$richtextbox1.AppendText("$pingresult")
 					#write-debug $pingresult
-					#write-debug ping was clicked
+					write-debug "ping was clicked"
 					#write-debug $error
 				}
 
@@ -283,7 +290,7 @@ function Call-event_psf {
 					$ipconfig = get-netipconfiguration |Format-list|Out-String
 					$richtextbox1.AppendText("$ipconfig")
 					#write-debug $ipconfig
-					#write-debug ipconfig was clicked
+					write-debug "ipconfig was clicked"
 					#write-debug $error
 				}
 
@@ -293,6 +300,7 @@ function Call-event_psf {
 					$richtextbox1.AppendText("`n")
 					$richtextbox1.AppendText("This may appear to hang")
 					$updatelogcreate = Get-WindowsUpdateLog -LogPath $env:temp\UpdateLog.log
+					Write-Debug "Windows update log was clicked , still need to see if this can be faster"
 					$log = Get-Content -Path $env:temp\UpdateLog.log | Format-table | Out-String
 					$updatelogcreate
 					$richtextbox1.AppendText("$log")
@@ -309,19 +317,20 @@ function Call-event_psf {
 					$richtextbox1.AppendText("`n---------Services------")
 					$services = Get-Service|Sort-Object -Property Status |Format-table -Property Status,DisplayName |Out-String
 					$richtextbox1.AppendText("`n$services")
-					#write-debug Services was clicked
+					write-debug "Services was clicked"
 					#write-debug $error
 				}
                 $buttonhttpcheck_Click = {
 				[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
             	$site = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website", "Computer", "www.google.com")
-            	$richtextbox1.AppendText("Testing connection to $site")
+            	Write-Debug "get website for http connection check,"
+				$richtextbox1.AppendText("Testing connection to $site`n")
 				$webtest = Invoke-WebRequest -Uri "$site"|Select-Object Statuscode, StatusDescription, Headers, Baseresponse| Format-list |Out-string
 				$ping = Test-NetConnection $site | Out-String
-				$richtextbox1.AppendText("$ping")
-				$richtextbox1.AppendText("$webtest")
+				$richtextbox1.AppendText("ping result`n$ping")
+				$richtextbox1.AppendText("website test result`n$webtest")
+				Write-Debug "Connection check ran"
                 }
-				Get-Variable -Scope script 
 				# --End User Generated Script--
 				#----------------------------------------------
 				#region Generated Events
@@ -554,5 +563,5 @@ function Call-event_psf {
 
 			#Call the form
 			Call-event_psf
-
+			Write-Debug "Exiting"
 

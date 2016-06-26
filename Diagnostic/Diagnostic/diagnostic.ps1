@@ -203,7 +203,7 @@ function Call-event_psf {
 		}
 		$buttonlistdrive_Click = {
 			# Lists drives , uses math shenanigans to get to GB rather then bytes
-			$drives = Get-PSDrive -PSProvider FileSystem |Format-Table -Wrap -AutoSize -Property Root, @{Name="UsedGB";Expression={[math]::round($_.used/1gb,2)}}, @{Name="FreeGB";Expression={[math]::round($_.free/1gb,2)}}, Description | Out-String
+			$drives = Get-PSDrive -PSProvider FileSystem |Format-Table -Wrap -AutoSize -Property Root, @{Name="UsedGB";Expression={[math]::round($_.used/1MB,2)}}, @{Name="FreeGB";Expression={[math]::round($_.free/1MB,2)}}, Description | Out-String
 			$richtextbox1.AppendText("--------- Local Drives -------")
 			$richtextbox1.AppendText("`n")
 			$richtextbox1.AppendText("$drives")

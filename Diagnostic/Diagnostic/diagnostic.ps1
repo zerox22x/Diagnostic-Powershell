@@ -1,4 +1,5 @@
 #Requires -Version 3.0
+Set-StrictMode -Version Latest
 $DebugPreference = "Continue"
 Write-Debug "past requires means we are runnign on v3 or higher"
 #----------------------------------------------
@@ -134,7 +135,7 @@ function Call-event_psf {
 		if ($Error.Count -eq "0") { $buttonSave.Enabled = $true; }
 		if ($Error.Count -ne "0") { $richtextbox1.AppendText("$Error1") }
 		$Error.Clear()
-		[gc]::Collect()
+		#[gc]::Collect()
 		Write debug "Text changed in text box"
 
 }
@@ -203,7 +204,7 @@ function Call-event_psf {
 		}
 		$buttonlistdrive_Click = {
 			# Lists drives , uses math shenanigans to get to GB rather then bytes
-			$drives = Get-PSDrive -PSProvider FileSystem |Format-Table -Wrap -AutoSize -Property Root, @{Name="UsedGB";Expression={[math]::round($_.used/1MB,2)}}, @{Name="FreeGB";Expression={[math]::round($_.free/1MB,2)}}, Description | Out-String
+			$drives = Get-PSDrive -PSProvider FileSystem |Format-Table -Wrap -AutoSize -Property Root, @{Name="UsedGB";Expression={[math]::round($_.used/1GB,2)}}, @{Name="FreeGB";Expression={[math]::round($_.free/1GB,2)}}, Description | Out-String
 			$richtextbox1.AppendText("--------- Local Drives -------")
 			$richtextbox1.AppendText("`n")
 			$richtextbox1.AppendText("$drives")
@@ -243,69 +244,20 @@ function Call-event_psf {
 
 
 				$buttonInstalledPrograms_Click = {
-					#Gets installed programs, keeps in mind if a system is 64 bit or not,was doeing things far to complicated
-					$richtextbox1.AppendText("this may take a while")
-					$richtextbox1.AppendText("`n")
-					$richtextbox1.AppendText("----- Installed Programs List ------")
-					$richtextbox1.AppendText("`n")
-					#64 bit
-					if ($Env:PROCESSOR_ARCHITECTURE -eq "AMD64"){
-					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher,InstallLocation
-					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation
-					# add $getprograms and $getprograms2 together then sort on display name and save as a string
-					$programs = $getprograms + $getprograms2 | Sort-Object DisplayName | Out-String
-					Write-Debug "64 bit path for installed programs ran"
-					$richtextbox1.AppendText("$programs")
-				
+					. ".\installedprograms.ps1"
 					}
-					Else {
-					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation|Sort-Object DisplayName |Out-string
-					Write-Debug "32 bit path for installed programs ran"
-					$richtextbox1.AppendText("$programs")
-					}
-					
-					$richtextbox1.lines |Out-file -FilePath d:\games\example.txt
-					#write-debug $programs
-					#write-debug installed programs was clicked
-					#write-debug $error
-				}
 			
 
 				$buttonPing_Click = {
-					#loads .net window , adds a input box,uses input box as argument for ping , formats the list and output as string rather then powershell object
-					[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
-					$ip = [Microsoft.VisualBasic.Interaction]::InputBox("enter a ipadress`nvalid are x.x.x.x or a domain ex www.google.com", "Computer", "www.google.com")
-					$richtextbox1.AppendText("------ Ping Results ------")
-					$richtextbox1.AppendText("`n")
-					$pingresult = Test-Connection $ip | Format-Table |out-string
-					$richtextbox1.AppendText("$pingresult")
-					#write-debug $pingresult
-					write-debug "ping was clicked"
-					#write-debug $error
+					. ".\ping.ps1"
 				}
 
 				$buttonIpconfig_Click = {
-					#Grabs current IP Configuration from netword adapters and displays it
-					$richtextbox1.AppendText("------- Ip Configuration -------")
-					$ipconfig = get-netipconfiguration |Format-list|Out-String
-					$richtextbox1.AppendText("$ipconfig")
-					#write-debug $ipconfig
-					write-debug "ipconfig was clicked"
-					#write-debug $error
+					. ".\ipconfig.ps1"
 				}
 
-				$button1_Click = {
-					#Creates a log file about the status of windows update and any errors , this can take some time to complete
-					$richtextbox1.AppendText("------ Windows Update logs----")
-					$richtextbox1.AppendText("`n")
-					$richtextbox1.AppendText("This may appear to hang")
-					$updatelogcreate = Get-WindowsUpdateLog -LogPath $env:temp\UpdateLog.log
-					Write-Debug "Windows update log was clicked , still need to see if this can be faster"
-					$log = Get-Content -Path $env:temp\UpdateLog.log | Format-table | Out-String
-					$updatelogcreate
-					$richtextbox1.AppendText("$log")
-					#write-debug windows update was clicked
-					#write-debug $error
+				$button1_Click =  {
+					. ".\windowsupdatlogs.ps1"
 				}
 
 				$button2_Click = {
@@ -314,10 +266,10 @@ function Call-event_psf {
 					$processes = Get-Process| Format-Table -property Name,ID,path |Out-string
 					$richtextbox1.AppendText("`n")
 					$richtextbox1.AppendText("$Processes")
-					$richtextbox1.AppendText("`n---------Services------")
-					$services = Get-Service|Sort-Object -Property Status |Format-table -Property Status,DisplayName |Out-String
-					$richtextbox1.AppendText("`n$services")
-					write-debug "Services was clicked"
+					#$richtextbox1.AppendText("`n---------Services------")
+					#$services = Get-Service|Sort-Object -Property Status |Format-table -Property Status,DisplayName |Out-String
+					#$richtextbox1.AppendText("`n$services")
+					#write-debug "Services was clicked"
 					#write-debug $error
 				}
                 $buttonhttpcheck_Click = {

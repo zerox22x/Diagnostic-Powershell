@@ -1,11 +1,11 @@
 ﻿**********************
 Windows PowerShell transcript start
-Start time: 20160627214553
+Start time: 20160627220533
 Username: DESKTOP-O9JVSPV\collin
 RunAs User: DESKTOP-O9JVSPV\collin
 Machine: DESKTOP-O9JVSPV (Microsoft Windows NT 6.2.9200.0)
 Host Application: C:/Users/collin/.vscode/extensions/ms-vscode.PowerShell-0.6.1/bin/Microsoft.PowerShell.EditorServices.Host.exe /debugAdapter /logLevel:Verbose /hostName:"Visual Studio Code Host" /hostProfileId:Microsoft.VSCode /hostVersion:0.6.1
-Process ID: 10424
+Process ID: 1108
 PSVersion: 5.0.10586.122
 PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0.10586.122
 BuildVersion: 10.0.10586.122
@@ -19,9 +19,58 @@ DEBUG: past requires means we are runnign on v3 or higher
 DEBUG: assemblies loaded
 DEBUG: All objects added
 DEBUG: Initalization done
+
+
+
+
+Command        Arguments Location
+-------        --------- --------
+               {}        diagnostic.ps1: line 229
+Call-event_psf {}        diagnostic.ps1: line 459
+diagnostic.ps1 {}        diagnostic.ps1: line 465
+
+
+
+
+
+
+
+
+PS>admin
+admin : The term 'admin' is not recognized as the name of a cmdlet, function, script file, or operable program. Check th
+e spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ admin
++ ~~~~~
+    + CategoryInfo          : ObjectNotFound: (admin:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+admin : The term 'admin' is not recognized as the name of a cmdlet, function, script file, or operable program. Check t
+he spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ admin
++ ~~~~~
+    + CategoryInfo          : ObjectNotFound: (admin:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS>admin
+admin : The term 'admin' is not recognized as the name of a cmdlet, function, script file, or operable program. Check th
+e spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ admin
++ ~~~~~
+    + CategoryInfo          : ObjectNotFound: (admin:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+admin : The term 'admin' is not recognized as the name of a cmdlet, function, script file, or operable program. Check t
+he spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ admin
++ ~~~~~
+    + CategoryInfo          : ObjectNotFound: (admin:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
 Cancel
 DEBUG: Exiting
 **********************
 Windows PowerShell transcript end
-End time: 20160627214624
+End time: 20160627220600
 **********************

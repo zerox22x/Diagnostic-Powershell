@@ -142,44 +142,11 @@ function Call-event_psf {
 		
 
 	$buttonclearapplog_Click = 	{
-		# Clears the event log if persmissopn is given , uses a .net window with a inputbox to choose a eventlog, if there are no administrator rights this will fail , it is disabled for non admin runs during init
-		[System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")|Out-Null
-		$OUTPUT = [System.Windows.Forms.MessageBox]::Show("This will clear the eventlog that is chosen in the next step.`nPress yes to continue`n no to cancel" , "Status" , 4) 
-		if ($OUTPUT -eq "YES")
-		{
-			[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
-			$logname2 = [Microsoft.VisualBasic.Interaction]::InputBox("Log name , allowed are Application,System,Setup and Security", "Logname", "Application")
-			Clear-EventLog -LogName $logname2
-			Write-Debug "Eventlog clear ran"
-			$richtextbox1.Appendtext("`nClearing $logname")
-						
-			$richtextbox1.AppendText("`nlog cleared")
-		}
-		else {
-			$richtextbox1.AppendText("`n Eventlog Clear Cancled")
-			Write-Debug "Eventlog clear got cancled"
-			}
-		$error1 = $Error[0] | Out-String
-		if ($Error.Count -eq "0") {}
+		. ".\clearapplog.ps1"
 		
 		}
 	$buttonList_Click = {
-			#basicly the same thing as $buttonSearch except this will list x of the last entries in it , default is 60 entries in application log
-			$richtextbox1.AppendText("Depending on the amount of entries this may take a while")
-			$richtextbox1.AppendText("`n")
-			$richtextbox1.AppendText("------- Event log Results ------");
-			$richtextbox1.AppendText("`n")
-			[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
-			$logname2 = [Microsoft.VisualBasic.Interaction]::InputBox("Log name , allowed are Application,System,Setup and Security", "Logname", "Application")
-			$how = [Microsoft.VisualBasic.Interaction]::InputBox("how many entries should be retrieved", "number", "60")
-			Write-Debug "information gathered for event log fetch"
-			$eventlist = Get-eventlog -logname $logname2 -Newest $how |Select-Object -Property EntryType,Source,Message | Format-table | Out-String 
-			$richtextbox1.AppendText("$eventlist")
-			$error1 = $Error[0] | Format-table -Force | out-string
-			if ($Error.Count -eq "0") { $buttonSave.Enabled = $true; }
-			#write-debug Event log Listing ran $logname2 $how
-			#write-debug $error
-			$Error.clear()
+			. ".\eventlist.ps1"
 
 		}
 

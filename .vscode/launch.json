@@ -6,7 +6,7 @@
             "type": "PowerShell",
             "request": "launch",
             "program": "${file}",
-            "args": [Set-StrictMode -Version Latest],
+            "args": [Set-StrictMode -Version Latest, $debugpreference= "Continue"],
             "cwd": "${file}"
         },
         {
@@ -14,7 +14,7 @@
             "type": "PowerShell x86",
             "request": "launch",
             "program": "${file}",
-            "args": [Set-StrictMode -Version Latest],
+            "args": [Set-StrictMode -Version Latest, $debugpreference= "Continue"],
             "cwd": "${file}"
         }
     ]

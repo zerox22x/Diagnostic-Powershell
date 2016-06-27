@@ -1,5 +1,6 @@
 #Requires -Version 3.0
 Set-StrictMode -Version Latest
+Start-Transcript -path log.txt
 $DebugPreference = "Continue"
 Write-Debug "past requires means we are runnign on v3 or higher"
 #----------------------------------------------
@@ -214,7 +215,7 @@ function Call-event_psf {
 				}
 
 				$button2_Click = {
-					#Grabs all running procceses and services , has an issue with too much white space
+					<#Grabs all running procceses and services , has an issue with too much white space
 					$richtextbox1.AppendText("------- Running processes -------")
 					$processes = Get-Process| Format-Table -property Name,ID,path |Out-string
 					$richtextbox1.AppendText("`n")
@@ -223,8 +224,10 @@ function Call-event_psf {
 					#$services = Get-Service|Sort-Object -Property Status |Format-table -Property Status,DisplayName |Out-String
 					#$richtextbox1.AppendText("`n$services")
 					#write-debug "Services was clicked"
-					#write-debug $error
-				}
+					write-debug $error
+			#>	
+			. ".\processes.ps1"
+			}
                 $buttonhttpcheck_Click = {
 				. ".\httpcheck.ps1"
                 }
@@ -462,7 +465,7 @@ function Call-event_psf {
 			Call-event_psf
 			Write-Debug "Exiting"
 
-
+Stop-Transcript
 # SIG # Begin signature block
 # MIIOgQYJKoZIhvcNAQcCoIIOcjCCDm4CAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR

@@ -257,7 +257,9 @@ function Call-event_psf {
 				}
 
 				$button1_Click =  {
-					. ".\windowsupdatlogs.ps1"
+					
+					. ".\windowsupdatelogs.ps1"
+
 				}
 
 				$button2_Click = {

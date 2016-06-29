@@ -5,8 +5,8 @@
 					$richtextbox1.AppendText("`n")
 					$richtextbox1.AppendText("----- Installed Programs List ------")
 					$richtextbox1.AppendText("`n")
-				
-					#64 bit
+				$ErrorActionPreference = "SilentlyContinue"
+						#64 bit
 					if ($Env:PROCESSOR_ARCHITECTURE -eq "AMD64"){
 					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher,InstallLocation
 					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation
@@ -20,6 +20,5 @@
 					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation|Sort-Object DisplayName |Out-string
 					Write-Debug "32 bit path for installed programs ran"
 					Write-Verbose "ignore the errors $programs"
-					$richtextbox1.AppendText("$programs")}
-			
-		}
+					$richtextbox1.AppendText("$programs")}}
+		

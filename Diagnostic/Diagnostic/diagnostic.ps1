@@ -2,6 +2,7 @@
 Set-StrictMode -Version Latest
 Start-Transcript -path log.txt
 $DebugPreference = "Continue"
+$VerbosePreference = "Continue"
 Write-Debug "past requires means we are runnign on v3 or higher"
 #----------------------------------------------
 #region Application Functions

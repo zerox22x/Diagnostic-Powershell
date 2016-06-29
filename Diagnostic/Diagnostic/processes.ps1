@@ -1,6 +1,6 @@
 function BuildProcessesList {
   $arr = New-Object Collections.ArrayList
-  $script:col = ps | select Name, Id, BasePriority, Description, Company | sort Name
+  $script:col = ps | select Name, Id, BasePriority, Description, Company,Path | sort Name
   $arr.AddRange($col)
   $dtgGrid.DataSource = $arr
   $frmMain.Refresh()
@@ -130,21 +130,27 @@ function ShowMainWindow {
   $chFileP.Width = 380
 
   #trTimer
-  $trTimer.Interval = 1000
+  $trTimer.Interval = 10000
   $trTimer.Add_Tick( { BuildProcessesList } )
 
   #sbRules
   $sbRules.SizingGrip = $false
-
+ 
   #frmMain
-  $frmMain.ClientSize = New-Object Drawing.Size(601, 480)
+  $frmMain.ClientSize = New-Object Drawing.Size(1024, 768)
   $frmMain.Controls.AddRange(@($scSplit, $sbRules))
   $frmMain.FormBorderStyle = "FixedSingle"
   $frmMain.Menu = $mnuMain
   $frmMain.StartPosition = "CenterScreen"
   $frmMain.Text = "PExplore"
   $frmMain.Add_Load($frmMain_OnLoad)
+  $frmMain.Add_FormClosing($frmMain_close)
+  
+				$frmMainclose = [System.Windows.Forms.FormClosedEventHandler]{
+					#Event Argument: $_ = [System.Windows.Forms.FormClosedEventArgs]
+          $trTimer.Stop()
 
+				}
   [void]$frmMain.ShowDialog()
 }
 
@@ -178,3 +184,4 @@ function ShowAboutWindow {
 }
 
 ShowMainWindow
+$trTimer.Stop()

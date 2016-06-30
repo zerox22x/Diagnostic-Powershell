@@ -6,7 +6,7 @@
             "type": "PowerShell",
             "request": "launch",
             "program": "${file}",
-            "args": [],
+            "args": [$VerbosePreference = "Continue"],
             "cwd": "${file}"
         },
         {
@@ -14,7 +14,7 @@
             "type": "PowerShell x86",
             "request": "launch",
             "program": "${file}",
-            "args": [],
+            "args": [$VerbosePreference = "Continue"],
             "cwd": "${file}"
         }
     ]

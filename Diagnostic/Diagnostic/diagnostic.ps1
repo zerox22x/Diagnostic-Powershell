@@ -244,7 +244,7 @@ function Call-event_psf {
 								$richtextbox1.Appendtext("This may take some time")
 								#foreach ($Site in $sites) {$temp = pathping $site -q 5 | Out-string
 								$temp = pathping $sites -q 5 |Out-String
-								$richtextbox1.Appendtext("$temp")}
+								$richtextbox1.Appendtext("$temp")
                 }
 				# --End User Generated Script--
 				#----------------------------------------------

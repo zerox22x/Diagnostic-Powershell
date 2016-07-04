@@ -50,6 +50,7 @@ function Call-event_psf {
 	$buttonSave = New-Object 'System.Windows.Forms.Button'
 	$buttonList = New-Object 'System.Windows.Forms.Button'
 	$buttonhttpcheck = New-Object 'System.Windows.Forms.Button'
+	$buttonpathping = New-Object 'System.Windows.Forms.Button'
 	$richtextbox1 = New-Object 'System.Windows.Forms.RichTextBox'
 	$buttonSearch = New-Object 'System.Windows.Forms.Button'
 	$buttonlistdrive = New-Object 'System.Windows.Forms.Button'
@@ -236,6 +237,15 @@ function Call-event_psf {
                 $buttonhttpcheck_Click = {
 				. ".\httpcheck.ps1"
                 }
+
+				$buttonpathping_Click = {
+								[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
+            					$sites = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website`n You can add more then 1 adress to ping by putting a , between sites", "Computer", "www.google.com")
+								$richtextbox1.Appendtext("This may take some time")
+								#foreach ($Site in $sites) {$temp = pathping $site -q 5 | Out-string
+								$temp = pathping $sites -q 5 |Out-String
+								$richtextbox1.Appendtext("$temp")}
+                }
 				# --End User Generated Script--
 				#----------------------------------------------
 				#region Generated Events
@@ -266,6 +276,7 @@ function Call-event_psf {
 						$buttonSearch.remove_Click($buttonSearch_Click)
 						$buttonlistdrive.remove_Click($buttonlistdrive_Click)
 						$buttonhttpcheck.remove_Click($buttonhttpcheck_Click)
+						$buttonpathping.remove_Click($buttonpathping_Click)
                         $formEventLogSearch.remove_FormClosing($formEventLogSearch_FormClosing)
 						$formEventLogSearch.remove_FormClosed($formMain_FormClosed)
 						$formEventLogSearch.remove_Load($formEventLogSearch_Load)
@@ -301,6 +312,7 @@ function Call-event_psf {
 				$formEventLogSearch.Controls.Add($buttonlistdrive)
 				$formEventLogSearch.Controls.Add($buttonclearapplog)
                 $formEventLogSearch.Controls.Add($buttonhttpcheck)
+				$formEventLogSearch.Controls.Add($buttonpathping)
 				$formEventLogSearch.ClientSize = '1600, 900'
 				$formEventLogSearch.Name = "formEventLogSearch"
 				$formEventLogSearch.Text = "Event Log Search"
@@ -450,6 +462,16 @@ function Call-event_psf {
 				$buttonhttpcheck.Text = "Http Check"
 				$buttonhttpcheck.UseVisualStyleBackColor = $True
 				$buttonhttpcheck.add_Click($buttonhttpcheck_Click)
+				# buttonpathping
+				#
+				$buttonpathping.Location = '1150, 12'
+				$buttonpathping.Name = "buttonpathping"
+				$buttonpathping.Size = '75, 23'
+				$buttonpathping.TabIndex = 4
+				$buttonpathping.Text = "PathPing"
+				$buttonpathping.UseVisualStyleBackColor = $True
+				$buttonpathping.add_Click($buttonpathping_Click)
+				#
 				#endregion Generated Form Code
 
 				#----------------------------------------------

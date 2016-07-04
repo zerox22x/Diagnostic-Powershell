@@ -1,4 +1,4 @@
-[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
+				[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
             	$site = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website", "Computer", "www.google.com")
             	Write-Debug "get website for http connection check,"
 				$richtextbox1.AppendText("Testing connection to $site`n")

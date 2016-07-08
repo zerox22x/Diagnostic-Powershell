@@ -7,9 +7,10 @@
 		write-debug "Information gathered for event log search"
 		$events = get-eventlog -logname $logname -Newest $how
 		Write-Debug "Got specified entries"
-		$scan = $events | Where-Object { $_.message -like "*$programname*" } |Select-Object -Property EntryType,Source,Message | Format-table| Out-String
+		$scan = $events | Where-Object { $_.message -like "*$programname*" } |Select-Object -Property EntryType,Source,Message | Tee-Object -Variable temp |Out-GridView
+		#$scan = $events | Where-Object { $_.message -like "*$programname*" } |Select-Object -Property EntryType,Source,Message | Format-table| Out-String
 		Write-Debug "Get only the things we want , the rest can go away"
-		$richtextbox1.AppendText("$scan")
+		$richtextbox1.AppendText("$temp")
 		$error1 = $Error[0] | Format-table -Force | out-string
 		if ($Error.Count -eq "0") { $buttonSave.Enabled = $true; }
 		#write-debug Event log Search ran

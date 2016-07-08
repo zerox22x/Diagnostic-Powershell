@@ -8,19 +8,25 @@
 				$ErrorActionPreference = "SilentlyContinue"
 						#64 bit
 					if ($Env:PROCESSOR_ARCHITECTURE -eq "AMD64"){
-					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher,InstallLocation
-					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation
+					#$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName, DisplayVersion, Publisher,InstallLocation
+					#$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation
 					# add $getprograms and $getprograms2 together then sort on display name and save as a string
-					$programs = $getprograms + $getprograms2 | Sort-Object DisplayName | Out-String
+					$getprograms = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*|Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation
+					$getprograms2 =  Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*|Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation
+					$getprograms + $getprograms2 |Tee-Object -Variable temp| Out-GridView
 					Write-Debug "64 bit path for installed programs ran"
-					$richtextbox1.AppendText("$programs")
+					$richtextbox1.AppendText("$temp")
 				
 					
 					Else {
-					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation|Sort-Object DisplayName |Out-string
+				
+					#$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation|Sort-Object DisplayName |Out-string
+					$programs = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*|Where-object {$_.DisplayName -ne $null}| Where-Object {$_.DisplayName -ne ' '} | Select-Object DisplayName,DisplayVersion, Publisher,InstallLocation|Tee-Object -variable temp| Out-GridView
 					Write-Debug "32 bit path for installed programs ran"
 					Write-Verbose "ignore the errors $programs"
-					$richtextbox1.AppendText("$programs")}}
+					
+					$richtextbox1.AppendText("$temp")}
+					}
 					
 					
 		

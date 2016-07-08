@@ -1,5 +1,5 @@
 #Requires -Version 3.0
-Set-StrictMode -Version Latest
+
 Start-Transcript -path log.txt
 $DebugPreference = "Continue"
 $VerbosePreference = "Continue"
@@ -8,6 +8,7 @@ Get-ExecutionPolicy | Out-Default
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy remotesigned
 Get-ExecutionPolicy | Out-Default
 $error1 = $error[0]
+$temp
 #----------------------------------------------
 #region Application Functions
 #----------------------------------------------
@@ -202,7 +203,7 @@ function Call-event_psf {
 
 
 				$buttonInstalledPrograms_Click = {
-					. ".\installedprograms.ps1"
+					. ".\Installedprograms.ps1"
 					}
 			
 

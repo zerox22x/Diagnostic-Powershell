@@ -4,9 +4,9 @@
 					$richtextbox1.AppendText("This may appear to hang")
 					$updatelogcreate = Get-WindowsUpdateLog -LogPath $env:temp\UpdateLog.log
 					Write-Debug "Windows update log was clicked , still need to see if this can be faster"
-					$log = Get-Content -Path $env:temp\UpdateLog.log | Format-table | Out-String
-					$updatelogcreate
-					$richtextbox1.AppendText("$log")
+					#$log = Get-Content -Path $env:temp\UpdateLog.log | Format-table | Out-String
+					$log = Get-Content -Path $env:temp\UpdateLog.log | Tee-object -Variable temp | Out-Gridview
+					$richtextbox1.AppendText("$temp")
 					#write-debug windows update was clicked
 					#write-debug $error
                     return 0

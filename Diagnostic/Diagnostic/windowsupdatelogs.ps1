@@ -1,4 +1,5 @@
 #Creates a log file about the status of windows update and any errors , this can take some time to complete
+					$ErrorActionPreference = "silentlyContinue"
 					$richtextbox1.AppendText("------ Windows Update logs----")
 					$richtextbox1.AppendText("`n")
 					$richtextbox1.AppendText("This may appear to hang")

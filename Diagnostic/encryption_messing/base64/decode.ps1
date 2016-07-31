@@ -1,6 +1,6 @@
-#cd $PSScriptRoot
+#grab all .b64 file names
 $files = Get-childitem *.b64
-
+#for each item that has .b64 as extension , read the file , generate a random number as filename, convert $data contents into readeble text , save it as $name.ps1, set the folder correctly , execute decoded script
 foreach ($file in $files) {
 	$data = Get-content $file
 	$name = Get-Random

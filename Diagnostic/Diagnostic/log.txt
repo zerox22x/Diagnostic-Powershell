@@ -1,14 +1,14 @@
 ﻿**********************
 Windows PowerShell transcript start
-Start time: 20160709100605
+Start time: 20160730125324
 Username: DESKTOP-O9JVSPV\collin
 RunAs User: DESKTOP-O9JVSPV\collin
-Machine: DESKTOP-O9JVSPV (Microsoft Windows NT 6.2.9200.0)
-Host Application: C:/Users/collin/.vscode/extensions/ms-vscode.PowerShell-0.6.1/bin/Microsoft.PowerShell.EditorServices.Host.exe /debugAdapter /logLevel:Verbose /hostName:"Visual Studio Code Host" /hostProfileId:Microsoft.VSCode /hostVersion:0.6.1
-Process ID: 11940
-PSVersion: 5.0.10586.122
-PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0.10586.122
-BuildVersion: 10.0.10586.122
+Machine: DESKTOP-O9JVSPV (Microsoft Windows NT 10.0.10586.0)
+Host Application: C:\Windows\system32\WindowsPowerShell\v1.0\PowerShell.exe
+Process ID: 10756
+PSVersion: 5.0.10586.494
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0.10586.494
+BuildVersion: 10.0.10586.494
 CLRVersion: 4.0.30319.42000
 WSManStackVersion: 3.0
 PSRemotingProtocolVersion: 2.3
@@ -25,5 +25,5 @@ Cancel
 DEBUG: Exiting
 **********************
 Windows PowerShell transcript end
-End time: 20160709100615
+End time: 20160730125335
 **********************

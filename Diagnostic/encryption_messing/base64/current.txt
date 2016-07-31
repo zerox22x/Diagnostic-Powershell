@@ -1,0 +1,6 @@
+$unencoded = Get-content secret.txt
+$unencoded  | ConvertTo-SecureString -AsplainText -Force | ConvertFrom-SecureString | out-file Securestring.txt
+$encrypted = Get-content .\Securestring.txt
+$b = [System.Text.Encoding]::UTF8.GetBytes($encrypted)
+[System.Convert]::ToBase64String($b)| Out-file Encoded.txt
+# Decrypting it

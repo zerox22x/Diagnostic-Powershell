@@ -1,4 +1,5 @@
-$files = get-childitem "*.ps1"
+write-host $PSScriptRoot
+$files = get-childitem "*.txt"
 foreach ($file in $files) {
 $fileName = "$file"
 $fileContent = get-content $fileName

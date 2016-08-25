@@ -80,23 +80,27 @@ function Call-event_psf {
 				$richtextbox1.AppendText("Running Without administrator permissions , Event log clear disabled`n")
 				$buttonclearapplog.Enabled = $false;
 				}
-		
+		Write-debug "admin check complete "
 		$buttonSave.Enabled = $false;
 		# Get current location
 		$itemlocation = Get-Location
 		$itemlocation = $itemlocation -replace "Path", "".Replace("---", "") | Out-String
 		$richtextbox1.AppendText("Current location is $itemlocation")
+		write-debug -message $itemlocation
 		# Get windows version and add it to the box
 		$windowsname = (Get-WmiObject win32_operatingsystem).caption | Out-String
 		$richtextbox1.AppendText("`n")
 		$richtextbox1.AppendText("$windowsname")
+		write-debug -message $windowsname
 		$Error.Clear()
 		# Grab all users and display them
 		$users = Get-WmiObject -Class Win32_UserAccount -Filter "LocalAccount='True'" | Select PSComputername, Name, AccountType|Format-table -Wrap|Out-String
 		$richtextbox1.AppendText("$users`n")
+		write-debug $users
 		#Get bit version of windows
 		$richtextbox1.Appendtext("bit mode is $env:Processor_Architecture`n")
 		# check for internet connectivity
+		write-debug "checking network connection , may take a few seconds"
 		ipconfig /flushdns
 		$dns = Test-Connection -Quiet www.google.com
 		if ($dns -ne "True")
@@ -128,8 +132,8 @@ function Call-event_psf {
 		if ($Error.Count -eq "0") { $buttonSave.Enabled = $true; }
 		if ($Error.Count -ne "0") { $richtextbox1.AppendText("$Error1") }
 		$Error.Clear()
-		#[gc]::Collect()
-		Write debug "Text changed in text box"
+		[gc]::Collect()
+		write-debug "Text changed in text box"
 
 }
 		

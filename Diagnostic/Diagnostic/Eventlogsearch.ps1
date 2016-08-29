@@ -7,7 +7,7 @@
 		write-debug "Information gathered for event log search"
 		$events = get-eventlog -logname $logname -Newest $how
 		Write-Debug "Got specified entries"
-		$scan = $events | Where-Object { $_.message -like "*$programname*" } |Select-Object -Property EntryType,Source,Message | Tee-Object -Variable temp |Out-GridView
+		$scan = $events | Where-Object { $_.message -like "*$programname*" } |Select-Object -Property EntryType,Source,Message | Tee-Object -Variable temp |Out-GridView -PassThru | Out-GridView
 		#$scan = $events | Where-Object { $_.message -like "*$programname*" } |Select-Object -Property EntryType,Source,Message | Format-table| Out-String
 		Write-Debug "Get only the things we want , the rest can go away"
 		$richtextbox1.AppendText("$temp")

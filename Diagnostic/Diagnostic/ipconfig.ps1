@@ -1,6 +1,6 @@
 #Grabs current IP Configuration from netword adapters and displays it
 					$richtextbox1.AppendText("------- Ip Configuration -------")
-					$ipconfig = get-netipconfiguration |Tee-object -variable temp | Out-Gridview
+					$ipconfig = get-netipconfiguration |select-object -property Computername,InterfaceAlias,InterfaceDescription,Interfaceindex ,ipv4Address,ipv4DefaultGateway,DNSServer,ipv6address,ipv6gateway| Sort-object -property InterfaceAlias |Tee-object -variable temp | Out-Gridview -PassThru | Out-GridView
 					$richtextbox1.AppendText("$temp")
 					#write-debug $ipconfig
 					write-debug "ipconfig was clicked"

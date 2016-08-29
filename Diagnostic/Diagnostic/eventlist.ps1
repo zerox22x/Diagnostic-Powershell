@@ -7,7 +7,7 @@
 			$logname2 = [Microsoft.VisualBasic.Interaction]::InputBox("Log name , allowed are Application,System,Setup and Security", "Logname", "Application")
 			$how = [Microsoft.VisualBasic.Interaction]::InputBox("how many entries should be retrieved", "number", "60")
 			Write-Debug "information gathered for event log fetch"
-			$eventlist = Get-eventlog -logname $logname2 -Newest $how |Select-Object -Property EntryType,Source,Message | Tee-Object -Variable temp |Out-GridView
+			$eventlist = Get-eventlog -logname $logname2 -Newest $how |Select-Object -Property EntryType,Source,Message | Tee-Object -Variable temp |Out-GridView -PassThru|Out-GridView
 			$richtextbox1.AppendText("$eventlist")
 			$error1 = $Error[0] | Format-table -Force | out-string
 			if ($Error.Count -eq "0") { $buttonSave.Enabled = $true; }

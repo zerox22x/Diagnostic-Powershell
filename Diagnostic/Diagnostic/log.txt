@@ -1,15 +1,15 @@
 ﻿**********************
 Windows PowerShell transcript start
-Start time: 20160825152952
+Start time: 20160913215944
 Username: DESKTOP-O9JVSPV\collin
 RunAs User: DESKTOP-O9JVSPV\collin
 Machine: DESKTOP-O9JVSPV (Microsoft Windows NT 10.0.14393.0)
-Host Application: C:\WINDOWS\Sysnative\WindowsPowerShell\v1.0\powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command & "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.1\scripts\Start-EditorServices.ps1" -EditorServicesVersion "0.7.1" -HostName "Visual Studio Code Host" -HostProfileId "Microsoft.VSCode" -HostVersion "0.7.1" -BundledModulesPath "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.1\modules" -LogLevel "Normal" -LogPath "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.1\logs\1472131554-EditorServices.log" 
-Process ID: 6892
-PSVersion: 5.1.14393.82
+Host Application: C:\WINDOWS\Sysnative\WindowsPowerShell\v1.0\powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command & "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.2\scripts\Start-EditorServices.ps1" -EditorServicesVersion "0.7.2" -HostName "Visual Studio Code Host" -HostProfileId "Microsoft.VSCode" -HostVersion "0.7.2" -BundledModulesPath "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.2\modules" -LogLevel "Normal" -LogPath "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.2\logs\1473796340-EditorServices.log" 
+Process ID: 6528
+PSVersion: 5.1.14393.103
 PSEdition: Desktop
-PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.14393.82
-BuildVersion: 10.0.14393.82
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.14393.103
+BuildVersion: 10.0.14393.103
 CLRVersion: 4.0.30319.42000
 WSManStackVersion: 3.0
 PSRemotingProtocolVersion: 2.3
@@ -17,26 +17,18 @@ SerializationVersion: 1.1.0.1
 **********************
 Transcript started, output file is log.txt
 DEBUG: past requires means we are runnign on v3 or higher
-RemoteSigned
+Unrestricted
 RemoteSigned
 DEBUG: assemblies loaded
 DEBUG: All objects added
-DEBUG: admin check complete
-PS>TerminatingError(Write-Debug): "A parameter cannot be found that matches parameter name 'string'."
-Write-Debug : A parameter cannot be found that matches parameter name 'string'.
-At C:\Users\collin\Source\Repos\Diagnostic-Powershell\Diagnostic\Diagnostic\main.ps1:89 char:15
-+         write-debug -string $itemlocation
-+                     ~~~~~~~
-    + CategoryInfo          : InvalidArgument: (:) [Write-Debug], ParameterBindingException
-    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.WriteDebugCommand
-Write-Debug : A parameter cannot be found that matches parameter name 'string'.
-At C:\Users\collin\Source\Repos\Diagnostic-Powershell\Diagnostic\Diagnostic\main.ps1:89 char:15
-+         write-debug -string $itemlocation
-+                     ~~~~~~~
-    + CategoryInfo          : InvalidArgument: (:) [Write-Debug], ParameterBindingException
-    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.WriteDebugCommand
-
+DEBUG: Text changed in text box
+DEBUG: running without admin right , event clear disabled
+DEBUG: Text changed in text box
+DEBUG: C:\Users\collin\Source\Repos\Diagnostic-Powershell\Diagnostic\Diagnostic
+DEBUG: Text changed in text box
+DEBUG: Text changed in text box
 DEBUG: Microsoft Windows 10 Pro
+DEBUG: Text changed in text box
 DEBUG: 
 PSComputerName  Name           AccountType
 --------------  ----           -----------
@@ -44,11 +36,19 @@ DESKTOP-O9JVSPV Administrator          512
 DESKTOP-O9JVSPV collin                 512
 DESKTOP-O9JVSPV DefaultAccount         512
 DESKTOP-O9JVSPV Guest                  512
+DEBUG: Text changed in text box
 DEBUG: checking network connection , may take a few seconds
+DEBUG: Text changed in text box
+DEBUG: Text changed in text box
 DEBUG: Initalization done
+DEBUG: Text changed in text box
+DEBUG: Information gathered for event log search
+DEBUG: Got specified entries
+DEBUG: Get only the things we want , the rest can go away
+DEBUG: Text changed in text box
 Cancel
 DEBUG: Exiting
 **********************
 Windows PowerShell transcript end
-End time: 20160825153023
+End time: 20160913233657
 **********************

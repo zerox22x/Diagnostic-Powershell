@@ -2,8 +2,12 @@
             	$site = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website", "Computer", "www.google.com")
             	Write-Debug "get website for http connection check,"
 				$richtextbox1.AppendText("Testing connection to $site`n")
+				Write-Debug "invoke webrequest"
 				$webtest = Invoke-WebRequest -Uri "$site"|Select-Object Statuscode, StatusDescription, Headers, Baseresponse| Format-list |Out-string
+				Write-Debug $webtest
+				Write-Debug "starting ping"
 				$ping = Test-NetConnection $site | Out-String
+				write-debug $ping
 				$richtextbox1.AppendText("ping result`n$ping")
 				$richtextbox1.AppendText("website test result`n$webtest")
 				Write-Debug "Connection check ran"

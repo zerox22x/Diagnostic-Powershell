@@ -1,9 +1,9 @@
 #Requires -Version 3.0
 
 Start-Transcript -path log.txt
-$DebugPreference = "Continue"
-$VerbosePreference = "Continue"
-$ErrorActionPreference = "Continue"
+#$DebugPreference = "Continue"
+#$VerbosePreference = "Continue"
+#$ErrorActionPreference = "Continue"
 Write-Debug "past requires means we are runnign on v3 or higher"
 Get-ExecutionPolicy | Out-Default
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy remotesigned
@@ -243,13 +243,13 @@ function Call-event_psf {
 			}
                 $buttonhttpcheck_Click = {
 				. ".\httpcheck.ps1"
-                }
+				}
 
 				$buttonpathping_Click = {
 								[System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic') | Out-Null
-            					$sites = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website`n You can add more then 1 adress to ping by putting a , between sites", "Computer", "www.google.com")
+            					$sites = [Microsoft.VisualBasic.Interaction]::InputBox("Enter a Website`n", "Computer", "www.google.com")
 								$richtextbox1.Appendtext("This may take some time")
-								#foreach ($Site in $sites) {$temp = pathping $site -q 5 | Out-string
+								#foreach ($Site in $sites) {$temp = pathping $site -q 10 | Out-string
 								$temp = pathping $sites -q 5 |Tee-object -Variable temp|Out-Gridview
 								$richtextbox1.Appendtext("$temp")
                 }

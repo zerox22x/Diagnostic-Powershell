@@ -1,54 +1,24 @@
 ﻿**********************
 Windows PowerShell transcript start
-Start time: 20160913215944
+Start time: 20161211170939
 Username: DESKTOP-O9JVSPV\collin
 RunAs User: DESKTOP-O9JVSPV\collin
-Machine: DESKTOP-O9JVSPV (Microsoft Windows NT 10.0.14393.0)
-Host Application: C:\WINDOWS\Sysnative\WindowsPowerShell\v1.0\powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command & "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.2\scripts\Start-EditorServices.ps1" -EditorServicesVersion "0.7.2" -HostName "Visual Studio Code Host" -HostProfileId "Microsoft.VSCode" -HostVersion "0.7.2" -BundledModulesPath "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.2\modules" -LogLevel "Normal" -LogPath "C:\Users\collin\.vscode\extensions\ms-vscode.PowerShell-0.7.2\logs\1473796340-EditorServices.log" 
-Process ID: 6528
-PSVersion: 5.1.14393.103
+Machine: DESKTOP-O9JVSPV (Microsoft Windows NT 6.2.9200.0)
+Host Application: C:\Program Files (x86)\PowerGUI\ScriptEditor.exe C:\Users\collin\Source\Repos\Diagnostic-Powershell\Diagnostic\Diagnostic\diagnostic.ps1
+Process ID: 14200
+PSVersion: 5.1.14393.479
 PSEdition: Desktop
-PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.14393.103
-BuildVersion: 10.0.14393.103
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.14393.479
+BuildVersion: 10.0.14393.479
 CLRVersion: 4.0.30319.42000
 WSManStackVersion: 3.0
 PSRemotingProtocolVersion: 2.3
 SerializationVersion: 1.1.0.1
 **********************
 Transcript started, output file is log.txt
-DEBUG: past requires means we are runnign on v3 or higher
-Unrestricted
 RemoteSigned
-DEBUG: assemblies loaded
-DEBUG: All objects added
-DEBUG: Text changed in text box
-DEBUG: running without admin right , event clear disabled
-DEBUG: Text changed in text box
-DEBUG: C:\Users\collin\Source\Repos\Diagnostic-Powershell\Diagnostic\Diagnostic
-DEBUG: Text changed in text box
-DEBUG: Text changed in text box
-DEBUG: Microsoft Windows 10 Pro
-DEBUG: Text changed in text box
-DEBUG: 
-PSComputerName  Name           AccountType
---------------  ----           -----------
-DESKTOP-O9JVSPV Administrator          512
-DESKTOP-O9JVSPV collin                 512
-DESKTOP-O9JVSPV DefaultAccount         512
-DESKTOP-O9JVSPV Guest                  512
-DEBUG: Text changed in text box
-DEBUG: checking network connection , may take a few seconds
-DEBUG: Text changed in text box
-DEBUG: Text changed in text box
-DEBUG: Initalization done
-DEBUG: Text changed in text box
-DEBUG: Information gathered for event log search
-DEBUG: Got specified entries
-DEBUG: Get only the things we want , the rest can go away
-DEBUG: Text changed in text box
-Cancel
-DEBUG: Exiting
+RemoteSigned
 **********************
 Windows PowerShell transcript end
-End time: 20160913233657
+End time: 20161211171039
 **********************
